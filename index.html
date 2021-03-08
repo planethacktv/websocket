@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8">
+      <title>Express session demo</title>
+  </head>
+  <body>
+    <style>
+      .character{
+        background: yellow;
+        transform: rotate(90deg);
+        border-radius: 50%;
+        height: 50px;
+        width: 50px;
+        text-align: center;
+        line-height: 200%;
+        font-weight: bold;
+        font-size: 28px;
+        position: fixed;
+        left: 100px;
+        top: 200px;
+      }
+    </style>
+    <h1>Choose an action.</h1> 
+    <div class="character" id="character1">|:)</div>
+
+    <input type="text" id="text1">
+
+    <button id="wsButton" type="button" title="Open WebSocket connection">
+      Open WebSocket connection
+    </button>
+    <button id="wsSendButton" type="button" title="Send WebSocket message">
+      Send WebSocket message
+    </button><br>
+    <button id="leftArrow" type="button" title="Move Left">
+      <-
+    </button>
+    <button id="rightArrow" type="button" title="Move Right">
+      ->
+    </button>
+
+
+    <pre id="messages" style="height: 400px; overflow: scroll"></pre>
+    <script src="client.js"></script>
+  </body>
+</html>
