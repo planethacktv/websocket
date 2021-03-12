@@ -4,7 +4,7 @@ player = {
 };
 
 (function () {
-    const serverHost = 'ws://localhost:8080/'
+    const serverHost = 'ws://game-web-proxy-wekkejvrgq-uc.a.run.app/'
     const messages = document.querySelector('#messages');
     const wsButton = document.querySelector('#wsButton');
     const wsSendButton = document.querySelector('#wsSendButton');
