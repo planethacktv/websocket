@@ -84,9 +84,9 @@ player = {
       };
       ws.onmessage = function(event){
         console.log(event.data);
-        let obj = JSON.parse(event.data);
-        character.style.left = obj.left + 'px';
-        character.style.top = obj.top + 'px'
+        let payload = JSON.parse(event.data);
+        character.style.left = payload[player.uid].left + 'px';
+        character.style.top = payload[player.uid].top + 'px'
       };
 
       // repeating interval
