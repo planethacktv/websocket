@@ -2,12 +2,13 @@ player = {
   uid: '',
   name: '',
   left: 0,
-  top: 200
+  top: 200,
+  color: '#000000'
 };
 
 (function () {
-    //const serverHost = 'ws://game-web-proxy-wekkejvrgq-uc.a.run.app/'
-    const serverHost = 'ws://localhost:8080/'
+    const serverHost = 'ws://game-web-proxy-wekkejvrgq-uc.a.run.app/'
+    //const serverHost = 'ws://localhost:8080/'
     const messages = document.querySelector('#messages');
     const wsButton = document.querySelector('#wsButton');
     const wsSendButton = document.querySelector('#wsSendButton');
@@ -31,15 +32,49 @@ player = {
     }
 
     // player controls
-    rightArrow.onclick = function () {
+    function playerMoveDown(){
+      player.top = player.top + 1
+    }
+    function playerMoveUp(){
+      player.top = player.top - 1
+    }
+    function playerMoveRight(){
       player.left = player.left + 1
-      console.log(player.left)
-    };
-    leftArrow.onclick = function () {
+    }
+    function playerMoveLeft(){
       player.left = player.left - 1
-      console.log(player.left)
-    };
+    }
+    
+    rightArrow.onclick = () => playerMoveRight();
+    leftArrow.onclick = () => playerMoveLeft();
+    upArrow.onclick = () => playerMoveUp();
+    downArrow.onclick = () => playerMoveDown();
 
+
+    window.addEventListener("keydown", function(event) { 
+      if (event.defaultPrevented) { 
+        return; // Do nothing if event already handled 
+      } 
+      
+      switch(event.code) { 
+        case "ArrowUp":
+          event.preventDefault()
+          playerMoveUp();
+          break;
+        case "ArrowRight":
+          event.preventDefault()
+          playerMoveRight();
+          break;
+        case "ArrowLeft":
+          event.preventDefault()
+          playerMoveLeft();
+          break;
+        case "ArrowDown":
+          event.preventDefault()
+          playerMoveDown();
+          break;
+      }
+    });
   
     // login.onclick = function () {
     //   fetch('/login', { method: 'POST', credentials: 'same-origin' })
@@ -76,6 +111,8 @@ player = {
         let mes = `Hello World! ${ts} ${textInput.value}`
         player.uid = 'player'+ts
         player.name = textInput.value
+        player.color = Math.floor(Math.random()*16777215).toString(16);
+
         showMessage('WebSocket connection established');
       };
       ws.onclose = function () {
@@ -106,6 +143,7 @@ player = {
       }
       let ts = Date.now()
       player.name = textInput.value
+      player.color = Math.floor(Math.random()*16777215).toString(16);
 
       // let ts = Date.now()
       // let mes = `Hello World! ${ts} ${textInput.value}`

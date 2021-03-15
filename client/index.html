@@ -2,46 +2,41 @@
 <html lang="en">
   <head>
       <meta charset="utf-8">
-      <title>Express session demo</title>
+      <title>Simple Game Websocket Example</title>
   </head>
   <body>
-    <style>
-      .character{
-        background: yellow;
-        transform: rotate(90deg);
-        border-radius: 50%;
-        height: 50px;
-        width: 50px;
-        text-align: center;
-        line-height: 200%;
-        font-weight: bold;
-        font-size: 28px;
-        position: fixed;
-        left: 100px;
-        top: 200px;
-      }
-    </style>
+    <link href="style.css" rel="stylesheet">
+
     <h1>Choose an action.</h1> 
-    <div class="character" id="character1">|:)</div>
+    <div class="player" id="character1">|:)</div>
 
   
     <button id="wsButton" type="button" title="Open WebSocket connection">
-      Open WebSocket connection
+      Join Game
     </button>
     <input type="text" id="text1" value="Player1">
 
     <button id="wsSendButton" type="button" title="Update Player Name">
       Update Player Name
     </button><br>
-    <button id="leftArrow" type="button" title="Move Left">
-      <-
-    </button>
-    <button id="rightArrow" type="button" title="Move Right">
-      ->
-    </button>
+    <div class="controller">
+      <button id="leftArrow" type="button" title="Move Left">
+        <
+      </button>
+      <button id="upArrow" type="button" title="Move up">
+        ^
+      </button>
+      <button id="downArrow" type="button" title="Move Down">
+        V
+      </button>
+      
+      <button id="rightArrow" type="button" title="Move Right">
+        >
+      </button>
+    </div>
 
 
     <pre id="messages" style="height: 400px; overflow: scroll"></pre>
-    <script src="client.js"></script>
+    <script src="client.js?asdfasfd=asd"></script>
   </body>
 </html>

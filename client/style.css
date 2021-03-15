@@ -1,0 +1,76 @@
+body {
+    background: #e7e7e7
+}
+
+.player{
+    background: yellow;
+    transform: rotate(90deg);
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    text-align: center;
+    line-height: 200%;
+    font-weight: bold;
+    font-size: 28px;
+    position: fixed;
+    left: 100px;
+    top: 200px;
+  }
+
+  button, input {
+      background: #CCC;
+      border-radius: 3px;
+      border: 1px #333 solid;
+      padding: 4px 8px;
+  }
+  input {
+    background: #fff;
+  }
+
+  .controller{
+      background: #C4C0B9;
+      position: fixed;
+      background-image: url(assets/612px-Nes_controller.svg.png);
+      background-size: 100%;
+      width: 300px;
+      height: 126px;
+      bottom: 0px;
+      left: 50%;
+      margin-left: -150px;
+      box-shadow: 0px 0px 15px rgba(0,0,0,.6);
+      z-index: 1000;
+  }
+  .controller button {
+      background: black;
+      border: 1px #C4C0B9 solid;
+      color: gray;
+      font-weight: bold;
+      font-size: 9px;
+      font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .controller #leftArrow {
+      position: absolute;
+      top: 64px;
+      left: 20px;
+      border-right: none;
+  }
+  .controller #upArrow {
+    position: absolute;
+    top: 45px;
+    left: 39px;
+    border-bottom: none;
+  }
+
+  .controller #rightArrow {
+    position: absolute;
+    top: 62px;
+    left: 59px;
+    border-left: none;
+  }
+  .controller #downArrow {
+    position: absolute;
+    top: 82px;
+    left: 38px;
+    border-top: none;
+  }
