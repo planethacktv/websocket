@@ -2,6 +2,15 @@ const WebSocket = require('ws');
 
 const port = process.env.PORT || 8080;
 
+let sprites = [
+  {
+    'uid' : '12345',
+    'name' : 'monster',
+    'top' : '100',
+    'left' : '200'
+  }
+]
+
 const wss = new WebSocket.Server({ port: port });
 
 wss.on('connection', function connection(ws) {
@@ -11,9 +20,12 @@ wss.on('connection', function connection(ws) {
         //client.send(data);
         console.log(`received:`);
         console.log(data);
-        
-        //client.send('ping');
-        client.send(data);
+        let tempPlayer = JSON.parse(data);
+        sprites.pop(tempPlayer)
+        // add player data to sprites array
+        // check if the sprites array already has unique
+       
+        client.send(sprites);
       
     });
   });
