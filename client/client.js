@@ -1,10 +1,13 @@
 player = {
+  uid: '',
+  name: '',
   left: 0,
   top: 200
 };
 
 (function () {
-    const serverHost = 'ws://game-web-proxy-wekkejvrgq-uc.a.run.app/'
+    //const serverHost = 'ws://game-web-proxy-wekkejvrgq-uc.a.run.app/'
+    const serverHost = 'ws://localhost:8080/'
     const messages = document.querySelector('#messages');
     const wsButton = document.querySelector('#wsButton');
     const wsSendButton = document.querySelector('#wsSendButton');
@@ -69,6 +72,10 @@ player = {
         showMessage('WebSocket error');
       };
       ws.onopen = function () {
+        let ts = Date.now()
+        let mes = `Hello World! ${ts} ${textInput.value}`
+        player.uid = 'player'+ts
+        player.name = textInput.value
         showMessage('WebSocket connection established');
       };
       ws.onclose = function () {
@@ -98,9 +105,12 @@ player = {
         return;
       }
       let ts = Date.now()
-      let mes = `Hello World! ${ts} ${textInput.value}`
-      ws.send(mes);
-      showMessage('Sent "' + mes +'"');
+      player.name = textInput.value
+
+      // let ts = Date.now()
+      // let mes = `Hello World! ${ts} ${textInput.value}`
+      // ws.send(mes);
+      // showMessage('Sent "' + mes +'"');
     };
 
     // ws.onmessage = function(){
