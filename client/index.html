@@ -6,19 +6,28 @@
   </head>
   <body>
     <link href="style.css" rel="stylesheet">
+    <div class="header">
+      <h1>Welcome to the Game! 
+        <a target="_blank" href="https://github.com/planethacktv/websocket">Github</a>
+        <a target="_blank" href="https://twitch.tv/planethack">Live Streamed at Twitch</a>
+      </h1> 
+      
+      <div class="player" id="character1">|:)</div>
 
-    <h1>Choose an action.</h1> 
-    <div class="player" id="character1">|:)</div>
+      <button id="wsButton" type="button" title="Open WebSocket connection">
+        Join Game
+      </button>
+      <input type="text" id="text1" value="Player1">
 
-  
-    <button id="wsButton" type="button" title="Open WebSocket connection">
-      Join Game
-    </button>
-    <input type="text" id="text1" value="Player1">
+      <button id="wsSendButton" type="button" title="Update Player Name">
+        Update Player Name
+      </button>
+    </div>
 
-    <button id="wsSendButton" type="button" title="Update Player Name">
-      Update Player Name
-    </button><br>
+    <div class="game" id="gameField">
+      
+    </div>
+
     <div class="controller">
       <button id="leftArrow" type="button" title="Move Left">
         <

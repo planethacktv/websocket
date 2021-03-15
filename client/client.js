@@ -6,6 +6,8 @@ player = {
   color: '#000000'
 };
 
+const gameField = document.querySelector('#gameField');
+
 (function () {
     const serverHost = 'ws://game-web-proxy-wekkejvrgq-uc.a.run.app/'
     //const serverHost = 'ws://localhost:8080/'
@@ -18,7 +20,7 @@ player = {
     const character = document.querySelector('#character1');
     const rightArrow = document.querySelector('#rightArrow');
     const leftArrow = document.querySelector('#leftArrow');
-  
+
 
     function showMessage(message) {
       messages.textContent += `\n${message}`;
@@ -100,6 +102,9 @@ player = {
       if (ws) {
         ws.onerror = ws.onopen = ws.onclose = null;
         ws.close();
+        // spawn player
+        // render other players
+           
       }
   
       ws = new WebSocket(serverHost);
@@ -122,15 +127,12 @@ player = {
       ws.onmessage = function(event){
         console.log(event.data);
         let payload = JSON.parse(event.data);
-        character.style.left = payload[player.uid].left + 'px';
-        character.style.top = payload[player.uid].top + 'px'
+        reRenderSprites(payload);
+        
       };
 
       // repeating interval
       var intervalId = setInterval(function() {
-        // let ts = Date.now()
-        // let num = parseInt(ts) % 100;
-        // let obj = {"left":num,"top":200}
         ws.send(JSON.stringify(player));
       }, 500);
   
@@ -158,3 +160,25 @@ player = {
 
 
   })();
+
+  function makeSprite(spriteObj){
+    let spriteDiv = document.createElement("div");
+    let face = document.createTextNode("|:)");
+    spriteDiv.classList.add('sprite');
+    spriteDiv.style.top = spriteObj.top +'px';
+    spriteDiv.style.left = spriteObj.left+'px';
+    spriteDiv.style.backgroundColor = '#'+spriteObj.color;
+    
+    spriteDiv.appendChild(face);
+    gameField.appendChild(spriteDiv);
+  }
+  function reRenderSprites(spriteList){
+    gameField.innerHTML=''; // clear the field
+    Object.keys(spriteList).forEach(key => {
+      console.log(key, spriteList[key]);
+      makeSprite(spriteList[key])
+    });
+    // character.style.left = payload[player.uid].left + 'px';
+    // character.style.top = payload[player.uid].top + 'px';
+  }
+  
