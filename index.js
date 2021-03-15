@@ -25,7 +25,7 @@ wss.on('connection', function connection(ws) {
         // add player data to sprites array
         // check if the sprites array already has unique
        
-        client.send(sprites);
+        client.send(JSON.stringify(sprites));
       
     });
   });
