@@ -7,7 +7,8 @@ sprites = {
     'uid' : '12345',
     'name' : 'monster',
     'top' : '100',
-    'left' : '200'
+    'left' : '200',
+    'color' : '#00CC00'
   }
 }
 
