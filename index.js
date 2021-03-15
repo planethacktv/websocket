@@ -2,7 +2,7 @@ const WebSocket = require('ws');
 
 const port = process.env.PORT || 8080;
 
-let sprites = [
+sprites = [
   {
     'uid' : '12345',
     'name' : 'monster',
@@ -22,6 +22,7 @@ wss.on('connection', function connection(ws) {
         console.log(data);
         let tempPlayer = JSON.parse(data);
         sprites.pop(tempPlayer)
+        console.log(sprites)
         // add player data to sprites array
         // check if the sprites array already has unique
        
