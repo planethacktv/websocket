@@ -12,3 +12,11 @@ Websocket Game server is live at http://game-web-proxy-wekkejvrgq-uc.a.run.app/ 
 This websocket connects to the client, you can see that code in the `client/` directory of this repository.
 
 Client is live at http://storage.googleapis.com/webproxyinterface/index.html?purge=1
+
+
+For next stream: - add player name above sprite
+- create bound that the sprite cant leave
+- make eash session unique
+- collisions?
+- leave game
+- a / b button
