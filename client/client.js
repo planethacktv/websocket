@@ -5,14 +5,16 @@ player = {
   top: 200,
   color: '#000000'
 };
+oldPlayerPosition = {x:0,y:0}
 
-
-
+let serverTick;
 const gameField = document.querySelector('#gameField');
 const gameHeight = 500; // pixel based
 const gameWidth = 100; // percentage based
 const globalts = Date.now()
+const serverHost = 'ws://game-web-proxy-wekkejvrgq-uc.a.run.app/'
 
+ //const serverHost = 'ws://localhost:8080/'
 function stringToHash(string) { 
                   
   var hash = 0; 
@@ -30,8 +32,8 @@ function stringToHash(string) {
 
 
 (function () {
-    const serverHost = 'ws://game-web-proxy-wekkejvrgq-uc.a.run.app/'
-    //const serverHost = 'ws://localhost:8080/'
+  
+   
     const messages = document.querySelector('#messages');
     const wsButton = document.querySelector('#wsButton');
     const wsSendButton = document.querySelector('#wsSendButton');
@@ -41,6 +43,8 @@ function stringToHash(string) {
     const character = document.querySelector('#character1');
     const rightArrow = document.querySelector('#rightArrow');
     const leftArrow = document.querySelector('#leftArrow');
+    const bButton = document.querySelector('#bButton');
+    const aButton = document.querySelector('#aButton');
 
 
     function showMessage(message) {
@@ -83,11 +87,36 @@ function stringToHash(string) {
       }
       player.left = tempValue;
     }
+
+    function teleport(x,y){
+      
+      player.top = y
+      player.left = x
+    }
+
+    function teleportRandom(){
+      oldPlayerPosition = {
+        x: player.left,
+        y: player.top,
+      }
+      let randomTS = Date.now()
+      let x = randomTS % 100
+      randomTS = Date.now()
+      let y = randomTS % 100
+      teleport(x,y);
+      showMessage(player.name + ' teleported!')
+    }
+    function teleportBack(){
+      console.log(oldPlayerPosition);
+      teleport(oldPlayerPosition.x,oldPlayerPosition.y);
+    }
     
     rightArrow.onclick = () => playerMoveRight();
     leftArrow.onclick = () => playerMoveLeft();
     upArrow.onclick = () => playerMoveUp();
     downArrow.onclick = () => playerMoveDown();
+    bButton.onclick = () => teleportBack();
+    aButton.onclick = () => teleportRandom();
 
 
     window.addEventListener("keydown", function(event) { 
@@ -112,6 +141,10 @@ function stringToHash(string) {
           event.preventDefault()
           playerMoveDown();
           break;
+        case "a":
+            event.preventDefault()
+            teleportRandom();
+            break;  
       }
     });
   
@@ -123,15 +156,7 @@ function stringToHash(string) {
     //       showMessage(err.message);
     //     });
     // };
-  
-    // logout.onclick = function () {
-    //   fetch('/logout', { method: 'DELETE', credentials: 'same-origin' })
-    //     .then(handleResponse)
-    //     .then(showMessage)
-    //     .catch(function (err) {
-    //       showMessage(err.message);
-    //     });
-    // };
+ 
   
     let ws;
   
@@ -173,12 +198,24 @@ function stringToHash(string) {
       };
 
       // repeating interval
-      var intervalId = setInterval(function() {
+      serverTick = setInterval(function() {
         ws.send(JSON.stringify(player));
       }, 500);
   
     };
   
+ 
+    logout.onclick = function () {
+      if (!ws) {
+        showMessage('No WebSocket connection');
+        return;
+      }
+      clearInterval(serverTick);
+      showMessage('Left the Game');
+      ws.close();
+      
+    };
+
     wsSendButton.onclick = function () {
       if (!ws) {
         showMessage('No WebSocket connection');
@@ -197,6 +234,10 @@ function stringToHash(string) {
     // ws.onmessage = function(){
     //   showMessage('Pong');
     // };
+
+    
+
+
     function collisionDetection(player, sprites){
       let hit = false;
       Object.keys(sprites).forEach(key => {
