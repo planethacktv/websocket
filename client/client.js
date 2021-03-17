@@ -152,7 +152,7 @@ function stringToHash(string) {
       // player spawn in
       ws.onopen = function () {
         let ts = Date.now()
-        let uid = md5(navigator.userAgent)
+        let uid = md5(navigator.userAgent+globalts)
         let mes = `Hello World! ${ts} ${textInput.value}`
         player.uid = 'player'+uid
         player.name = textInput.value
