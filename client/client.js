@@ -6,7 +6,27 @@ player = {
   color: '#000000'
 };
 
+
+
 const gameField = document.querySelector('#gameField');
+const gameHeight = 500; // pixel based
+const gameWidth = 100; // percentage based
+
+function stringToHash(string) { 
+                  
+  var hash = 0; 
+    
+  if (string.length == 0) return hash; 
+    
+  for (i = 0; i < string.length; i++) { 
+      char = string.charCodeAt(i); 
+      hash = ((hash << 5) - hash) + char; 
+      hash = hash & hash; 
+  } 
+    
+  return hash; 
+} 
+
 
 (function () {
     const serverHost = 'ws://game-web-proxy-wekkejvrgq-uc.a.run.app/'
@@ -35,16 +55,32 @@ const gameField = document.querySelector('#gameField');
 
     // player controls
     function playerMoveDown(){
-      player.top = player.top + 1
+      let tempValue = player.top + 1
+      if(tempValue > 90){
+        tempValue = 90;
+      }
+      player.top = tempValue;
     }
     function playerMoveUp(){
-      player.top = player.top - 1
+      let tempValue = player.top - 1
+      if(tempValue < 0){
+        tempValue = 0;
+      }
+      player.top = tempValue;
     }
     function playerMoveRight(){
-      player.left = player.left + 1
+      let tempValue = player.left + 1
+      if(tempValue > 96){
+        tempValue = 96;
+      }
+      player.left = tempValue;
     }
     function playerMoveLeft(){
-      player.left = player.left - 1
+      let tempValue = player.left - 1
+      if(tempValue < 0){
+        tempValue = 0;
+      }
+      player.left = tempValue;
     }
     
     rightArrow.onclick = () => playerMoveRight();
@@ -111,13 +147,17 @@ const gameField = document.querySelector('#gameField');
       ws.onerror = function () {
         showMessage('WebSocket error');
       };
+
+      // player spawn in
       ws.onopen = function () {
         let ts = Date.now()
+        let uid = stringToHash(navigator.userAgent)
         let mes = `Hello World! ${ts} ${textInput.value}`
-        player.uid = 'player'+ts
+        player.uid = 'player'+uid
         player.name = textInput.value
         player.color = Math.floor(Math.random()*16777215).toString(16);
-
+        player.top = ts % 100
+        player.left = ts % 100
         showMessage('WebSocket connection established');
       };
       ws.onclose = function () {
@@ -162,14 +202,22 @@ const gameField = document.querySelector('#gameField');
   })();
 
   function makeSprite(spriteObj){
+    // sprite body
     let spriteDiv = document.createElement("div");
     let face = document.createTextNode("|:)");
     spriteDiv.classList.add('sprite');
-    spriteDiv.style.top = spriteObj.top +'px';
-    spriteDiv.style.left = spriteObj.left+'px';
+    spriteDiv.style.top = spriteObj.top +'%';
+    spriteDiv.style.left = spriteObj.left+'%';
     spriteDiv.style.backgroundColor = '#'+spriteObj.color;
-    
     spriteDiv.appendChild(face);
+
+    // sprite name tag
+    let nameTag = document.createElement("div");
+    let name = document.createTextNode(spriteObj.name);
+    nameTag.appendChild(name);
+    nameTag.classList.add('name-tag')
+    spriteDiv.appendChild(nameTag);
+    
     gameField.appendChild(spriteDiv);
   }
   function reRenderSprites(spriteList){
