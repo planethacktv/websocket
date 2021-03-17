@@ -125,7 +125,7 @@ const gameField = document.querySelector('#gameField');
         ws = null;
       };
       ws.onmessage = function(event){
-        console.log(event.data);
+        //console.log(event.data);
         let payload = JSON.parse(event.data);
         reRenderSprites(payload);
         
@@ -175,7 +175,7 @@ const gameField = document.querySelector('#gameField');
   function reRenderSprites(spriteList){
     gameField.innerHTML=''; // clear the field
     Object.keys(spriteList).forEach(key => {
-      console.log(key, spriteList[key]);
+      //console.log(key, spriteList[key]);
       makeSprite(spriteList[key])
     });
     // character.style.left = payload[player.uid].left + 'px';
