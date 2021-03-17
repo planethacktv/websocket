@@ -204,7 +204,7 @@ function stringToHash(string) {
         // verifying its not colliding with itself
         if(player.uid != tempSprite.uid){
           //showMessage('checking'+player.top + ' ' + tempSprite.top)
-          if(player.top == tempSprite.top) hit = true;
+          if(player.top == tempSprite.top && player.left == tempSprite.left) hit = true;
         }
       })
   
