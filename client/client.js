@@ -197,37 +197,56 @@ function stringToHash(string) {
     // ws.onmessage = function(){
     //   showMessage('Pong');
     // };
-
+    function collisionDetection(player, sprites){
+      let hit = false;
+      Object.keys(sprites).forEach(key => {
+        let tempSprite = sprites[key];
+        // verifying its not colliding with itself
+        if(player.uid != tempSprite.uid){
+          //showMessage('checking'+player.top + ' ' + tempSprite.top)
+          if(player.top == tempSprite.top) hit = true;
+        }
+      })
+  
+      return hit;
+    }
+  
+    function makeSprite(spriteObj){
+      // sprite body
+      let spriteDiv = document.createElement("div");
+      let face = document.createTextNode("|:)");
+      spriteDiv.classList.add('sprite');
+      spriteDiv.style.top = spriteObj.top +'%';
+      spriteDiv.style.left = spriteObj.left+'%';
+      spriteDiv.style.backgroundColor = '#'+spriteObj.color;
+      spriteDiv.appendChild(face);
+  
+      // sprite name tag
+      let nameTag = document.createElement("div");
+      let name = document.createTextNode(spriteObj.name);
+      nameTag.appendChild(name);
+      nameTag.classList.add('name-tag')
+      spriteDiv.appendChild(nameTag);
+      
+      gameField.appendChild(spriteDiv);
+    }
+    function reRenderSprites(spriteList){
+      gameField.innerHTML=''; // clear the field
+      Object.keys(spriteList).forEach(key => {
+        //console.log(key, spriteList[key]);
+        makeSprite(spriteList[key])
+        
+        if(collisionDetection(spriteList[key],spriteList)){
+          showMessage(spriteList[key].name + ' collided!!!!')
+        }
+  
+      });
+      // character.style.left = payload[player.uid].left + 'px';
+      // character.style.top = payload[player.uid].top + 'px';
+    }
+    
 
 
   })();
 
-  function makeSprite(spriteObj){
-    // sprite body
-    let spriteDiv = document.createElement("div");
-    let face = document.createTextNode("|:)");
-    spriteDiv.classList.add('sprite');
-    spriteDiv.style.top = spriteObj.top +'%';
-    spriteDiv.style.left = spriteObj.left+'%';
-    spriteDiv.style.backgroundColor = '#'+spriteObj.color;
-    spriteDiv.appendChild(face);
-
-    // sprite name tag
-    let nameTag = document.createElement("div");
-    let name = document.createTextNode(spriteObj.name);
-    nameTag.appendChild(name);
-    nameTag.classList.add('name-tag')
-    spriteDiv.appendChild(nameTag);
-    
-    gameField.appendChild(spriteDiv);
-  }
-  function reRenderSprites(spriteList){
-    gameField.innerHTML=''; // clear the field
-    Object.keys(spriteList).forEach(key => {
-      //console.log(key, spriteList[key]);
-      makeSprite(spriteList[key])
-    });
-    // character.style.left = payload[player.uid].left + 'px';
-    // character.style.top = payload[player.uid].top + 'px';
-  }
   
