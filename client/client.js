@@ -11,6 +11,7 @@ player = {
 const gameField = document.querySelector('#gameField');
 const gameHeight = 500; // pixel based
 const gameWidth = 100; // percentage based
+const globalts = Date.now()
 
 function stringToHash(string) { 
                   
@@ -151,7 +152,7 @@ function stringToHash(string) {
       // player spawn in
       ws.onopen = function () {
         let ts = Date.now()
-        let uid = stringToHash(navigator.userAgent)
+        let uid = md5(navigator.userAgent)
         let mes = `Hello World! ${ts} ${textInput.value}`
         player.uid = 'player'+uid
         player.name = textInput.value
