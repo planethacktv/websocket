@@ -3,10 +3,11 @@ player = {
   name: '',
   left: 0,
   top: 200,
-  color: '#000000'
+  color: '#000000',
+  classes: ''
 };
 oldPlayerPosition = {x:0,y:0}
-
+const serverFPS = .5;
 let serverTick;
 const gameField = document.querySelector('#gameField');
 const gameHeight = 500; // pixel based
@@ -58,15 +59,22 @@ function stringToHash(string) {
         : Promise.reject(new Error('Unexpected response'));
     }
 
+    function getPlayerSprite(){
+      return document.getElementById(player.uid)
+    }
+
     // player controls
     function playerMoveDown(){
+      player.classes = 'sprite-move-down'
       let tempValue = player.top + 1
       if(tempValue > 90){
         tempValue = 90;
       }
+      
       player.top = tempValue;
     }
     function playerMoveUp(){
+      player.classes = 'sprite-move-up'
       let tempValue = player.top - 1
       if(tempValue < 0){
         tempValue = 0;
@@ -74,6 +82,7 @@ function stringToHash(string) {
       player.top = tempValue;
     }
     function playerMoveRight(){
+      player.classes = 'sprite-move-right'
       let tempValue = player.left + 1
       if(tempValue > 96){
         tempValue = 96;
@@ -81,6 +90,7 @@ function stringToHash(string) {
       player.left = tempValue;
     }
     function playerMoveLeft(){
+      player.classes = 'sprite-move-left'
       let tempValue = player.left - 1
       if(tempValue < 0){
         tempValue = 0;
@@ -184,7 +194,11 @@ function stringToHash(string) {
         player.color = Math.floor(Math.random()*16777215).toString(16);
         player.top = ts % 100
         player.left = ts % 100
-        showMessage('WebSocket connection established');
+        showMessage('Joined the game!');
+        // repeating server tick interval begins
+        serverTick = setInterval(function() {
+          ws.send(JSON.stringify(player));
+        }, (1000 / serverFPS) );
       };
       ws.onclose = function () {
         showMessage('WebSocket connection closed');
@@ -197,10 +211,7 @@ function stringToHash(string) {
         
       };
 
-      // repeating interval
-      serverTick = setInterval(function() {
-        ws.send(JSON.stringify(player));
-      }, 500);
+    
   
     };
   
@@ -255,8 +266,11 @@ function stringToHash(string) {
     function makeSprite(spriteObj){
       // sprite body
       let spriteDiv = document.createElement("div");
-      let face = document.createTextNode("|:)");
+      let face = document.createElement("span");
+      face.innerText = "|:)"
       spriteDiv.classList.add('sprite');
+      spriteDiv.classList.add(spriteObj.classes);
+      spriteDiv.id = spriteObj.uid
       spriteDiv.style.top = spriteObj.top +'%';
       spriteDiv.style.left = spriteObj.left+'%';
       spriteDiv.style.backgroundColor = '#'+spriteObj.color;

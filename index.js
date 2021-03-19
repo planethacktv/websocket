@@ -25,7 +25,6 @@ wss.on('connection', function connection(ws, request, client) {
   
         let tempPlayer = JSON.parse(data);
         sprites[tempPlayer.uid] = tempPlayer
-        console.log(sprites)
         // add player data to sprites array
         // check if the sprites array already has unique
        

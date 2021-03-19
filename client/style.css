@@ -24,17 +24,37 @@ h1 {
 }
 .sprite{
     background-color: yellow;
-    transform: rotate(90deg);
     border-radius: 50%;
     height: 50px;
     width: 50px;
     text-align: center;
     line-height: 200%;
     font-weight: bold;
-    font-size: 28px;
+    font-size: 22px;
     position: absolute;
   }
-
+  .sprite span {
+     transform: rotate(90deg);
+     position: absolute;
+     top: 2px;
+     left: 10px;  
+  }
+    .sprite.sprite-move-down span{ 
+        top: 8px;
+        left: 10px; 
+    }
+    .sprite.sprite-move-up span{
+        top: -5px;
+        left: 10px; 
+    }
+    .sprite.sprite-move-left span{
+        top: 0px;
+        left: 5px; 
+    }
+    .sprite.sprite-move-right span{
+        top: 0px;
+        left: 15px; 
+    }
   .name-tag {
       position: absolute;
       transform: rotate(-90deg);
