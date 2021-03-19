@@ -24,7 +24,7 @@ window.addEventListener("gamepaddisconnected", (event) => {
 });
 
 oldPlayerPosition = {x:0,y:0}
-const serverFPS = 4;
+const serverFPS = 10;
 let serverTick;
 const gameField = document.querySelector('#gameField');
 const gameHeight = 500; // pixel based
@@ -319,18 +319,27 @@ function stringToHash(string) {
     function reRenderSprites(spriteList){
       gameField.innerHTML=''; // clear the field
 
-      var gamepads = navigator.getGamepads();
-      console.log(gamepads);
-
-
       Object.keys(spriteList).forEach(key => {
         //console.log(key, spriteList[key]);
         makeSprite(spriteList[key])
         let gp 
         if(playerGamepad){
           var gamepads = navigator.getGamepads();
-          console.log(gamepads);
+          
           gp = gamepads[0]
+          // right
+          if(gp.buttons[15].pressed == true) playerMoveRight()
+          // left
+          if(gp.buttons[14].pressed == true) playerMoveLeft()
+          // up
+          if(gp.buttons[12].pressed == true) playerMoveUp();
+          // down
+          if(gp.buttons[13].pressed) playerMoveDown();
+          // A
+          if(gp.buttons[0].pressed) teleportRandom();
+          // B
+          if(gp.buttons[1].pressed) teleportBack();
+          
         }
         if(collisionDetection(spriteList[key],spriteList)){
           if(spriteList[key].uid = player.uid) {
