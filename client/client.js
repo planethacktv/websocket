@@ -4,10 +4,27 @@ player = {
   left: 0,
   top: 200,
   color: '#000000',
-  classes: ''
+  classes: '',
+  health: 100
 };
+
+playerGamepad = false;
+
+// Game pad logic
+
+window.addEventListener("gamepadconnected", (event) => {
+  console.log("A gamepad connected:");
+  console.log(event.gamepad);
+  playerGamepad = true;
+});
+window.addEventListener("gamepaddisconnected", (event) => {
+  console.log("A gamepad disconnected:");
+  console.log(event.gamepad);
+  playerGamepad = false;
+});
+
 oldPlayerPosition = {x:0,y:0}
-const serverFPS = .5;
+const serverFPS = 4;
 let serverTick;
 const gameField = document.querySelector('#gameField');
 const gameHeight = 500; // pixel based
@@ -151,10 +168,14 @@ function stringToHash(string) {
           event.preventDefault()
           playerMoveDown();
           break;
-        case "a":
-            event.preventDefault()
-            teleportRandom();
-            break;  
+        case "Space":
+          event.preventDefault()
+          teleportRandom();
+          break;  
+        case "Enter":
+              event.preventDefault()
+              teleportBack();
+              break;      
       }
     });
   
@@ -266,16 +287,26 @@ function stringToHash(string) {
     function makeSprite(spriteObj){
       // sprite body
       let spriteDiv = document.createElement("div");
-      let face = document.createElement("span");
-      face.innerText = "|:)"
       spriteDiv.classList.add('sprite');
-      spriteDiv.classList.add(spriteObj.classes);
+      if(spriteObj.classes != ''){
+        spriteDiv.classList.add(spriteObj.classes);
+      }
       spriteDiv.id = spriteObj.uid
       spriteDiv.style.top = spriteObj.top +'%';
       spriteDiv.style.left = spriteObj.left+'%';
       spriteDiv.style.backgroundColor = '#'+spriteObj.color;
+      
+      // sprite face
+      let face = document.createElement("span");
+      face.innerText = "|:)"
       spriteDiv.appendChild(face);
   
+      // sprite health bar
+      let healthBar = document.createElement("div");
+      healthBar.classList.add('healthbar')
+      healthBar.style.height = spriteObj.health + '%'
+      spriteDiv.appendChild(healthBar);
+
       // sprite name tag
       let nameTag = document.createElement("div");
       let name = document.createTextNode(spriteObj.name);
@@ -287,11 +318,30 @@ function stringToHash(string) {
     }
     function reRenderSprites(spriteList){
       gameField.innerHTML=''; // clear the field
+
+      var gamepads = navigator.getGamepads();
+      console.log(gamepads);
+
+
       Object.keys(spriteList).forEach(key => {
         //console.log(key, spriteList[key]);
         makeSprite(spriteList[key])
-        
+        let gp 
+        if(playerGamepad){
+          var gamepads = navigator.getGamepads();
+          console.log(gamepads);
+          gp = gamepads[0]
+        }
         if(collisionDetection(spriteList[key],spriteList)){
+          if(spriteList[key].uid = player.uid) {
+            player.health = player.health - 10;
+            gp.vibrationActuator.playEffect("dual-rumble", {
+              startDelay: 0,
+              duration: 1000,
+              weakMagnitude: 1.0,
+              strongMagnitude: 1.0
+            });
+          }
           showMessage(spriteList[key].name + ' collided!!!!')
         }
   

@@ -48,24 +48,27 @@ h1 {
         left: 10px; 
     }
     .sprite.sprite-move-left span{
-        top: 0px;
-        left: 5px; 
+        top: 2px;
+        left: 3px; 
     }
     .sprite.sprite-move-right span{
-        top: 0px;
-        left: 15px; 
+        top: 2px;
+        left: 17px; 
     }
   .name-tag {
       position: absolute;
-      transform: rotate(-90deg);
-      top: 0px;
+      top: -34px;
       font-size: 8px;
       width: 100%;
       text-align: center;
-      left: -34px;
+      left: 0px;
       overflow: hidden;
   }
-
+  .sprite .healthbar {
+      background: red;
+      width: 3px;
+      position: absolute;
+  }
   button, input {
       background: #CCC;
       border-radius: 3px;
