@@ -8,6 +8,7 @@ sprites = {
     'name' : 'monster',
     'top' : '5',
     'left' : '5',
+    'health': 1000,
     'color' : '#00CC00'
   }
 }

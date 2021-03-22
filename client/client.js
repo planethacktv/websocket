@@ -184,13 +184,21 @@ function stringToHash(string) {
   
     let ws;
   
+    function isPlayerDead(player, ws){
+      if(player.health <= 0 ){
+        showMessage(`Player ${player.name} died!`);
+        clearInterval(serverTick);
+        ws.close()
+        ws = false
+        return true
+      }
+      return false
+    }
+
     wsButton.onclick = function () {
       if (ws) {
         ws.onerror = ws.onopen = ws.onclose = null;
         ws.close();
-        // spawn player
-        // render other players
-           
       }
   
       ws = new WebSocket(serverHost);
@@ -222,9 +230,11 @@ function stringToHash(string) {
 
       ws.onmessage = function(event){
         let payload = JSON.parse(event.data);
-        reRenderSprites(payload);
-        updatePlayerList(payload);
-        checkForDeadPlayer();
+        if(!isPlayerDead(player, ws)){
+          reRenderSprites(payload);
+          updatePlayerList(payload);
+        }
+        
       };
 
     
@@ -240,7 +250,7 @@ function stringToHash(string) {
       clearInterval(serverTick);
       showMessage('Left the Game');
       ws.close();
-      
+      ws = false
     };
 
     wsSendButton.onclick = function () {
