@@ -31,6 +31,7 @@ const gameHeight = 500; // pixel based
 const gameWidth = 100; // percentage based
 const globalts = Date.now()
 const serverHost = 'ws://game-web-proxy-wekkejvrgq-uc.a.run.app/'
+const healthLoss = 5
 
  //const serverHost = 'ws://localhost:8080/'
 function stringToHash(string) { 
@@ -223,6 +224,7 @@ function stringToHash(string) {
         let payload = JSON.parse(event.data);
         reRenderSprites(payload);
         updatePlayerList(payload);
+        checkForDeadPlayer();
       };
 
     
@@ -340,7 +342,7 @@ function stringToHash(string) {
       
         if(collisionDetection(spriteList[key],spriteList)){
           if(spriteList[key].uid = player.uid) {
-            player.health = player.health - 10;
+            player.health = player.health - healthLoss;
             if(playerGamepad){
               gp.vibrationActuator.playEffect("dual-rumble", {
                 startDelay: 0,
@@ -363,7 +365,7 @@ function stringToHash(string) {
       playerList.innerHTML = '';
       Object.keys(players).forEach(key => {
         if(/player/.test(players[key].uid)) {
-          playerList.innerHTML += `${players[key].name} - hp:${players[key].health} <br>`
+          playerList.innerHTML += `[${players[key].name}] - hp:${players[key].health} x:${players[key].left} y:${players[key].top} <br>`
         }
       });
     }

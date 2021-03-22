@@ -6,8 +6,8 @@ sprites = {
   'monster1' : {
     'uid' : '12345',
     'name' : 'monster',
-    'top' : '100',
-    'left' : '200',
+    'top' : '5',
+    'left' : '5',
     'color' : '#00CC00'
   }
 }
@@ -24,7 +24,11 @@ wss.on('connection', function connection(ws, request, client) {
      // if (client !== ws && client.readyState === WebSocket.OPEN) {
   
         let tempPlayer = JSON.parse(data);
-        sprites[tempPlayer.uid] = tempPlayer
+        if(tempPlayer.health <= 0){
+          delete sprites[tempPlayer.uid]  
+        } else {
+          sprites[tempPlayer.uid] = tempPlayer
+        }
         // add player data to sprites array
         // check if the sprites array already has unique
        
