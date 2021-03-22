@@ -24,7 +24,7 @@ window.addEventListener("gamepaddisconnected", (event) => {
 });
 
 oldPlayerPosition = {x:0,y:0}
-const serverFPS = 10;
+const serverFPS = 4;
 let serverTick;
 const gameField = document.querySelector('#gameField');
 const gameHeight = 500; // pixel based
@@ -53,6 +53,7 @@ function stringToHash(string) {
   
    
     const messages = document.querySelector('#messages');
+    const playerList = document.querySelector('#playerList');
     const wsButton = document.querySelector('#wsButton');
     const wsSendButton = document.querySelector('#wsSendButton');
     const textInput = document.querySelector('#text1');
@@ -178,15 +179,6 @@ function stringToHash(string) {
               break;      
       }
     });
-  
-    // login.onclick = function () {
-    //   fetch('/login', { method: 'POST', credentials: 'same-origin' })
-    //     .then(handleResponse)
-    //     .then(showMessage)
-    //     .catch(function (err) {
-    //       showMessage(err.message);
-    //     });
-    // };
  
   
     let ws;
@@ -221,15 +213,16 @@ function stringToHash(string) {
           ws.send(JSON.stringify(player));
         }, (1000 / serverFPS) );
       };
+
       ws.onclose = function () {
         showMessage('WebSocket connection closed');
         ws = null;
       };
+
       ws.onmessage = function(event){
-        //console.log(event.data);
         let payload = JSON.parse(event.data);
         reRenderSprites(payload);
-        
+        updatePlayerList(payload);
       };
 
     
@@ -319,37 +312,43 @@ function stringToHash(string) {
     function reRenderSprites(spriteList){
       gameField.innerHTML=''; // clear the field
 
+      let gp 
+      if(playerGamepad){
+        var gamepads = navigator.getGamepads();
+        
+        gp = gamepads[0]
+        // right
+        if(gp.buttons[15].pressed == true) playerMoveRight()
+        // left
+        if(gp.buttons[14].pressed == true) playerMoveLeft()
+        // up
+        if(gp.buttons[12].pressed == true) playerMoveUp();
+        // down
+        if(gp.buttons[13].pressed) playerMoveDown();
+        // start
+        if(gp.buttons[8].pressed == true) showMessage('Game Started');
+        // A
+        if(gp.buttons[0].pressed) teleportRandom();
+        // B
+        if(gp.buttons[1].pressed) teleportBack();
+        
+      }
+
       Object.keys(spriteList).forEach(key => {
         //console.log(key, spriteList[key]);
         makeSprite(spriteList[key])
-        let gp 
-        if(playerGamepad){
-          var gamepads = navigator.getGamepads();
-          
-          gp = gamepads[0]
-          // right
-          if(gp.buttons[15].pressed == true) playerMoveRight()
-          // left
-          if(gp.buttons[14].pressed == true) playerMoveLeft()
-          // up
-          if(gp.buttons[12].pressed == true) playerMoveUp();
-          // down
-          if(gp.buttons[13].pressed) playerMoveDown();
-          // A
-          if(gp.buttons[0].pressed) teleportRandom();
-          // B
-          if(gp.buttons[1].pressed) teleportBack();
-          
-        }
+      
         if(collisionDetection(spriteList[key],spriteList)){
           if(spriteList[key].uid = player.uid) {
             player.health = player.health - 10;
-            gp.vibrationActuator.playEffect("dual-rumble", {
-              startDelay: 0,
-              duration: 1000,
-              weakMagnitude: 1.0,
-              strongMagnitude: 1.0
-            });
+            if(playerGamepad){
+              gp.vibrationActuator.playEffect("dual-rumble", {
+                startDelay: 0,
+                duration: 500,
+                weakMagnitude: 1.0,
+                strongMagnitude: 1.0
+              });
+            }
           }
           showMessage(spriteList[key].name + ' collided!!!!')
         }
@@ -359,6 +358,15 @@ function stringToHash(string) {
       // character.style.top = payload[player.uid].top + 'px';
     }
     
+
+    function updatePlayerList(players) {
+      playerList.innerHTML = '';
+      Object.keys(players).forEach(key => {
+        if(/player/.test(players[key].uid)) {
+          playerList.innerHTML += `${players[key].name} - hp:${players[key].health} <br>`
+        }
+      });
+    }
 
 
   })();

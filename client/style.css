@@ -132,3 +132,17 @@ h1 {
     left: 38px;
     border-top: none;
   }
+
+
+  #messages, #playerList {
+    display: block; 
+    height: 200px; 
+    float: left; 
+    width: 50%; 
+    overflow: scroll;
+    background: #ccc;
+  }
+  #playerList {
+      background: #333;
+      color: white;
+  }
