@@ -24,7 +24,7 @@ window.addEventListener("gamepaddisconnected", (event) => {
 });
 
 oldPlayerPosition = {x:0,y:0}
-const serverFPS = 4;
+const serverFPS = 10;
 let serverTick;
 const gameField = document.querySelector('#gameField');
 const gameHeight = 500; // pixel based
@@ -187,9 +187,7 @@ function stringToHash(string) {
     function isPlayerDead(player, ws){
       if(player.health <= 0 ){
         showMessage(`Player ${player.name} died!`);
-        clearInterval(serverTick);
-        ws.close()
-        ws = false
+ 
         return true
       }
       return false
@@ -219,7 +217,7 @@ function stringToHash(string) {
         showMessage('Joined the game!');
         // repeating server tick interval begins
         serverTick = setInterval(function() {
-          ws.send(JSON.stringify(player));
+           ws.send(JSON.stringify(player)); // if(!isPlayerDead(player, ws))
         }, (1000 / serverFPS) );
       };
 
@@ -230,18 +228,15 @@ function stringToHash(string) {
 
       ws.onmessage = function(event){
         let payload = JSON.parse(event.data);
-        if(!isPlayerDead(player, ws)){
+          
           reRenderSprites(payload);
           updatePlayerList(payload);
-        }
         
       };
-
-    
   
     };
   
- 
+    // exiting the gmae 
     logout.onclick = function () {
       if (!ws) {
         showMessage('No WebSocket connection');
@@ -374,9 +369,9 @@ function stringToHash(string) {
     function updatePlayerList(players) {
       playerList.innerHTML = '';
       Object.keys(players).forEach(key => {
-        if(/player/.test(players[key].uid)) {
+        //if(/player/.test(players[key].uid)) { // add to only show players
           playerList.innerHTML += `[${players[key].name}] - hp:${players[key].health} x:${players[key].left} y:${players[key].top} <br>`
-        }
+        //}
       });
     }
 
