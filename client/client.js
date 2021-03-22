@@ -210,6 +210,7 @@ function stringToHash(string) {
         let uid = md5(navigator.userAgent+globalts)
         let mes = `Hello World! ${ts} ${textInput.value}`
         player.uid = 'player'+uid
+        player.health = 100
         player.name = textInput.value
         player.color = Math.floor(Math.random()*16777215).toString(16);
         player.top = ts % 100
