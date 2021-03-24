@@ -5,7 +5,9 @@ player = {
   top: 200,
   color: '#000000',
   classes: '',
-  health: 100
+  health: 100,
+  type: 'player',
+  points: 0
 };
 
 playerGamepad = false;
@@ -13,13 +15,9 @@ playerGamepad = false;
 // Game pad logic
 
 window.addEventListener("gamepadconnected", (event) => {
-  console.log("A gamepad connected:");
-  console.log(event.gamepad);
   playerGamepad = true;
 });
 window.addEventListener("gamepaddisconnected", (event) => {
-  console.log("A gamepad disconnected:");
-  console.log(event.gamepad);
   playerGamepad = false;
 });
 
@@ -229,7 +227,6 @@ function stringToHash(string) {
 
       ws.onmessage = function(event){
         let payload = JSON.parse(event.data);
-          
           reRenderSprites(payload);
           updatePlayerList(payload);
         
@@ -284,9 +281,21 @@ function stringToHash(string) {
   
       return hit;
     }
+
+    function getRandomInt(max) {
+      return Math.floor(Math.random() * Math.floor(max));
+    }
+
+    function getFace(hp){
+      if(hp > 75) return '|:)';
+      if(hp > 50) return '|:(';
+      if(hp > 25) return '|:o';
+      return '|:O'
+    }
   
     function makeSprite(spriteObj){
       // sprite body
+
       let spriteDiv = document.createElement("div");
       spriteDiv.classList.add('sprite');
       if(spriteObj.classes != ''){
@@ -298,8 +307,9 @@ function stringToHash(string) {
       spriteDiv.style.backgroundColor = '#'+spriteObj.color;
       
       // sprite face
+     
       let face = document.createElement("span");
-      face.innerText = "|:)"
+      face.innerText = (spriteObj.type == 'player') ? getFace(spriteObj.health) : '>:(';
       spriteDiv.appendChild(face);
   
       // sprite health bar
