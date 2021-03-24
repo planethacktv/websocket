@@ -228,8 +228,9 @@ function stringToHash(string) {
 
       ws.onmessage = function(event){
         let payload = JSON.parse(event.data);
-          reRenderSprites(payload);
-          updatePlayerList(payload);
+        player = payload[player.uid]; // this update with any data from the server (might make movement weird)
+        reRenderSprites(payload);
+        updatePlayerList(payload);
         
       };
   
@@ -290,13 +291,13 @@ function stringToHash(string) {
     function getFace(hp){
       if(hp > 75) return '|:)';
       if(hp > 50) return '|:(';
-      if(hp > 25) return ']:o';
+      if(hp > 25) return '|:o';
       return ']:O'
     }
 
     function getHealthBarColor(hp){
       if(hp > 75) return 'green';
-      if(hp > 50) return 'yellow';
+      if(hp > 50) return 'lightgreen';
       if(hp > 25) return 'orange';
       return 'red'
     }
