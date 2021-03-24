@@ -295,8 +295,8 @@ function stringToHash(string) {
 
     function getMonsterFace(){
       let faces = [
-        '>;{',
-        '>:{',
+        '>:0',
+        '>:O',
         '>:0',
         '>;0'
       ]

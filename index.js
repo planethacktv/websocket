@@ -12,7 +12,17 @@ sprites = {
     'health': 1000,
     'color' : '#00CC00',
     'type': 'NPC' 
+  },
+  'monster2' : {
+    'uid' : '678910',
+    'name' : 'ErraticNPC',
+    'top' : 90,
+    'left' : 90,
+    'health': 1000,
+    'color' : '#FF0000',
+    'type': 'NPC' 
   }
+
 }
 
 const wss = new WebSocket.Server({ port: port });
@@ -34,6 +44,7 @@ wss.on('connection', function connection(ws, request, client) {
         }
         // move the monster
         sprites.monster1 = monsterMove(sprites.monster1)
+        sprites.monster2 = monsterMove(sprites.monster2)
         // add player data to sprites array
         // check if the sprites array already has unique
        
