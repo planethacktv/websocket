@@ -289,8 +289,18 @@ function stringToHash(string) {
     function getFace(hp){
       if(hp > 75) return '|:)';
       if(hp > 50) return '|:(';
-      if(hp > 25) return '|:o';
-      return '|:O'
+      if(hp > 25) return ']:o';
+      return ']:O'
+    }
+
+    function getMonsterFace(){
+      let faces = [
+        '>;{',
+        '>:{',
+        '>:0',
+        '>;0'
+      ]
+      return faces[getRandomInt(faces.length)]
     }
   
     function makeSprite(spriteObj){
@@ -309,7 +319,7 @@ function stringToHash(string) {
       // sprite face
      
       let face = document.createElement("span");
-      face.innerText = (spriteObj.type == 'player') ? getFace(spriteObj.health) : '>:(';
+      face.innerText = (spriteObj.type == 'player') ? getFace(spriteObj.health) : getMonsterFace();
       spriteDiv.appendChild(face);
   
       // sprite health bar
