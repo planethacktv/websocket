@@ -7,8 +7,8 @@ sprites = {
   'monster1' : {
     'uid' : '12345',
     'name' : 'BadGuyNPC',
-    'top' : '5',
-    'left' : '5',
+    'top' : 5,
+    'left' : 5,
     'health': 1000,
     'color' : '#00CC00',
     'type': 'NPC' 
@@ -32,6 +32,7 @@ wss.on('connection', function connection(ws, request, client) {
         } else {
           sprites[tempPlayer.uid] = tempPlayer
         }
+        // move the monster
         sprites.monster1 = monsterMove(sprites.monster1)
         // add player data to sprites array
         // check if the sprites array already has unique
@@ -41,6 +42,19 @@ wss.on('connection', function connection(ws, request, client) {
     });
   });
 });
+
+function generatePowerUp(){
+  return {
+    'uid' : 'p1',
+    'name' : 'Health Pack',
+    'top' : getRandomInt(95),
+    'left' :getRandomInt(95),
+    'health': 10,
+    'color' : '#00CC00',
+    'type': 'NPC' 
+  }
+}
+
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
