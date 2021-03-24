@@ -6,6 +6,7 @@ player = {
   color: '#000000',
   classes: '',
   health: 100,
+  maxHealth: 100,
   type: 'player',
   points: 0
 };
@@ -325,7 +326,7 @@ function stringToHash(string) {
       // sprite health bar
       let healthBar = document.createElement("div");
       healthBar.classList.add('healthbar')
-      healthBar.style.height = spriteObj.health + '%'
+      healthBar.style.height = (spriteObj.health / (spriteObj.maxHealth / 100)) + '%'
       spriteDiv.appendChild(healthBar);
 
       // sprite name tag
