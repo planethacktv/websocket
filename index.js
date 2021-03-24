@@ -19,7 +19,7 @@ sprites = {
     'name' : 'ErraticNPC',
     'top' : 90,
     'left' : 90,
-    'health': 900,
+    'health': 400,
     'maxHealth' : 1000,
     'color' : '#FF0000',
     'type': 'NPC' 

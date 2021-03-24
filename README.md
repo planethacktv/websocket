@@ -29,4 +29,15 @@ For next stream: - add player name above sprite
 - leave game
 - a / b button
 
+For next stream (written on 3/23/21)
+- make player an object/class
+  - death animation
+  - face animation
+  - spawn
+  - attack
 
+- power ups
+
+Server
+- collision detection on the server
+- the client needs to take the server player and update

@@ -334,7 +334,9 @@ function stringToHash(string) {
       // sprite health bar
       let healthBar = document.createElement("div");
       healthBar.classList.add('healthbar')
-      healthBar.style.height = (spriteObj.health / (spriteObj.maxHealth / 100)) + '%'
+      let relativeHealth = (spriteObj.health / (spriteObj.maxHealth / 100))
+      healthBar.style.height = relativeHealth + '%'
+      healthBar.style.background = getHealthBarColor(relativeHealth)
       spriteDiv.appendChild(healthBar);
 
       // sprite name tag
