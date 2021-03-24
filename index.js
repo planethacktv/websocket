@@ -10,6 +10,7 @@ sprites = {
     'top' : 5,
     'left' : 5,
     'health': 1000,
+    'maxHealth' : 1000,
     'color' : '#00CC00',
     'type': 'NPC' 
   },

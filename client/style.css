@@ -69,9 +69,10 @@ h1 {
       overflow: hidden;
   }
   .sprite .healthbar {
-      background: red;
+      background: rgb(0, 255, 76);
       width: 3px;
       position: absolute;
+      left: -5px;
   }
   button, input {
       background: #CCC;

@@ -294,6 +294,14 @@ function stringToHash(string) {
       return ']:O'
     }
 
+    function getHealthBarColor(hp){
+      if(hp > 75) return 'green';
+      if(hp > 50) return 'yellow';
+      if(hp > 25) return 'orange';
+      return 'red'
+    }
+
+
     function getMonsterFace(){
       let faces = [
         '>:0',
