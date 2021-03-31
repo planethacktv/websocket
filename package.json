@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "push-client": "gsutil -m -h \"Cache-Control: no-store\" cp -r client gs://webproxyinterface client"
   },
   "author": "",
   "license": "ISC",
