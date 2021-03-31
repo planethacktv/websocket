@@ -41,3 +41,6 @@ For next stream (written on 3/23/21)
 Server
 [] collision detection on the server
 [X] the client needs to take the server player and update (3/23)
+
+
+.

@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "push-client": "gsutil -m -h \"Cache-Control: no-store\" cp -r client gs://webproxyinterface client"
+    "push-client": "gsutil -m -h \"Cache-Control: no-cache, no-store, must-revalidate\" cp -r client/* gs://webproxyinterface/"
   },
-  "author": "",
+  "author": "PlanetHack",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
