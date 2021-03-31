@@ -1,15 +1,8 @@
-player = {
-  uid: '',
-  name: '',
-  left: 0,
-  top: 200,
-  color: '#000000',
-  classes: '',
-  health: 100,
-  maxHealth: 100,
-  type: 'player',
-  points: 0
-};
+
+
+player = new Player('sal','Player')
+
+console.log(player)
 
 playerGamepad = false;
 
@@ -205,6 +198,7 @@ function stringToHash(string) {
 
       // player spawn in
       ws.onopen = function () {
+        
         let ts = Date.now()
         let uid = md5(navigator.userAgent+globalts)
         let mes = `Hello World! ${ts} ${textInput.value}`
